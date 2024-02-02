@@ -1,0 +1,64 @@
+OGGETTI
+
+Venditore{ID, ListaProdottiVenduti}--->RivenditoreAutorizzato
+    			  	   |-->DistibutoreAutomatico {StatoDistributore}
+
+ProdottoAcquistato{ID, Venditore, Tratta, DataDiAcquisto}--->Biglietti{Corsa, Timbrato}
+				                 	 |-->Abbonamenti{TipoAbbonamento, FineValidità, TesseraCliente}
+
+Veicolo{Id, numeroPosti, StatoVeicolo,ListaManutenzione, TipoVeicolo, listaTratte}
+       						  
+Manutenzione{Id,Veicolo,dataInizio, dataFine}
+
+TesseraCliente {IDTessera, Nome, Cognome, DataNascita, Sesso, Categoria, DataScadenza, DataInizio, luogoDiResidenza??,ListaAbbonamenti}
+
+Tratta{ID, mediaDurata, tipoTratta, Partenza, Destinazione, listaCorse}
+
+Corsa{Id,Veicolo,Tratta,ListaProdottiAcquistati,durata}
+
+
+DAO
+
+VenditoriDao--->CheckStatus?ID, ListaAttivi, ListaFuoriServizio 
+
+ProdottiDao--->CheckAbbonamento?ID,AbbonamentiScaduti,CountVendite?InRangeData?DaChi,
+	   |-->Countvendite?DaChi
+
+VeicoliDao-->ListagetManutenzione, ListagetInServizio, sumBigliettiTimbrati?InrangeData
+
+
+ENUM
+
+TipoVeicolo --->Tram
+     	    |-->Autobus 
+
+StatoVeicolo --->Manutenzione
+             |-->In_servizio
+
+TipoAbbonamento--->Annuale
+	       |-->Mensile
+
+StatoDistributore--->Attivi
+		 |-->Fuori_Servizio
+
+Sesso-->Uomo
+     |->Donna
+     |->Altro
+
+Categoria--->Studente
+	 |-->Pensionato
+	 |-->Protetta
+	 |-->Standard
+
+TipoTratta--->Urbana
+	  |-->ExtraUrbana
+
+
+Relazioni
+
+
+
+
+CheckPostiDisponibili alla creazione di biglietti e timbratura
+Numero di corse che effettua un veicolo su una tratta
+Alla creazione di Manutenzione controllare se già è in manutenzione
